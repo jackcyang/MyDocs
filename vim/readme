@@ -1,1 +1,9 @@
-This is my vimrc file.
+These are my vim configuration file and relative files.
+
+"vimrc" is my vimrc file.
+"Tomorrow-Night-Eighties.vim" is colorscheme file.
+
+"vim-php-manual.tgz" is php manual files for vim.
+Installation:
+Create a folder named 'doc' somewhere and add this to your runtimepath.
+For example unpack it to c:\program\vim\php\doc and add this to your .vimrc: runtimepath+=c:\program\vim\php
