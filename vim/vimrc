@@ -129,25 +129,25 @@ else
 endif
 
 " 使用Vundle来管理Vundle，这个必须要有。
-Bundle 'gmarik/vundle'
+ Bundle 'gmarik/vundle'
 
 " 以下为要安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
-Bundle 'vim-easy-align'
-Bundle 'Yggdroot/indentLine'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'scrooloose/nerdtree'
-Bundle 'jistr/vim-nerdtree-tabs'
-Bundle 'tpope/vim-surround'
-Bundle 'Rykka/colorv.vim'
-Bundle 'bling/vim-airline'
-Bundle 'Emmet.vim'
-Bundle 'tComment'
-Bundle 'repeat.vim'
-Bundle 'syntastic'
-Bundle 'tagbar'
+ Bundle 'vim-easy-align'
+ Bundle 'Yggdroot/indentLine'
+ Bundle 'kien/ctrlp.vim'
+ Bundle 'Shougo/neocomplcache'
+ Bundle 'Shougo/neosnippet'
+ Bundle 'Shougo/neosnippet-snippets'
+ Bundle 'scrooloose/nerdtree'
+ Bundle 'jistr/vim-nerdtree-tabs'
+ Bundle 'tpope/vim-surround'
+ Bundle 'Rykka/colorv.vim'
+ Bundle 'bling/vim-airline'
+ Bundle 'Emmet.vim'
+ Bundle 'tComment'
+ Bundle 'repeat.vim'
+ Bundle 'syntastic'
+ Bundle 'tagbar'
 
 " -----------------------------------------------------------------------------
 "  < 编码配置 >
@@ -410,8 +410,8 @@ map <F2> <plug>NERDTreeTabsToggle<CR>
 let g:airline_left_sep=' | '
 let g:airline_right_sep=' | '
 
-"let g:airline_section_b = '%{getcwd()}'
-"let g:airline_section_c = '%t'
+let g:airline_section_b = '%{getcwd()}'
+let g:airline_section_c = '%t'
 
 
 " -----------------------------------------------------------------------------
@@ -492,3 +492,12 @@ if has("autocmd")
   augroup END
 endif
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+
+" 简化寄存器的复制粘贴
+" nnoremap <Leader>y "+y
+nnoremap <Leader>p "+gp
+nnoremap <Leader>P "+gP
+
+" 简化退出与保存操作
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>w :w!<CR>
