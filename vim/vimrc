@@ -207,12 +207,6 @@ imap <c-j> <Down>
 imap <c-h> <Left>
 imap <c-l> <Right>
 
-" 用<C-k,j,h,l>切换到上下左右的窗口中去
-noremap <c-k> <c-w>k
-noremap <c-j> <c-w>j
-noremap <c-h> <c-w>h
-noremap <c-l> <c-w>l
-
 " 启用每行超过80列的字符提示（字体变蓝并加下划线），不启用就注释掉
 "au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 80 . 'v.\+', -1)
 
@@ -223,9 +217,9 @@ set autochdir
 " 命令使用宽菜单
 set wildmenu
 
-"常规模式下<c-n,m>在tab窗口间跳转
-nnoremap <c-n> :tabp<CR>
-nnoremap <c-m> :tabn<CR>
+"常规模式下<c-h,l>在tab窗口间跳转
+nnoremap <c-h> :tabp<CR>
+nnoremap <c-l> :tabn<CR>
 
 set showcmd		" display incomplete commands
 
@@ -391,16 +385,16 @@ vmap <Leader>m gc
 "  < nerdtree 插件配置 >
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
-" 常规模式下输入 <Leader>l 调用插件
-"nmap <Leader>l :NERDTreeToggle<CR>
+" 常规模式下输入 <c-n> 调用插件
+"nmap <c-n> :NERDTreeToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < vim-nerdtree-tabs 插件配置 >
 " -----------------------------------------------------------------------------
 " 增强 nerdtree 插件的功能，包括统一使用同一个目录树，优化tab窗口标题等
-" 常规模式下输入 <Leader>l 调用插件
+" 常规模式下输入 <c-n> 调用插件
 let g:nerdtree_tabs_open_on_gui_startup=0 "gvim启动时不打开目录树
-map <Leader>l <plug>NERDTreeTabsToggle<CR>
+map <c-n> <plug>NERDTreeTabsToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < airline 插件配置 >
