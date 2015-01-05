@@ -1,240 +1,416 @@
+" -----------------------------------------------------------------------------
+"  < 判断操作系统是否是 Windows 还是 Linux >
+" -----------------------------------------------------------------------------
+let g:iswindows = 0
+let g:islinux = 0
+if(has("win32") || has("win64") || has("win95") || has("win16"))
+    let g:iswindows = 1
+else
+    let g:islinux = 1
+endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO: Description
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" -----------------------------------------------------------------------------
+"  < 判断是终端还是 Gvim >
+" -----------------------------------------------------------------------------
+if has("gui_running")
+    let g:isGUI = 1
+else
+    let g:isGUI = 0
+endif
 
 
+" -----------------------------------------------------------------------------
+"  < Vundle 插件管理工具配置 >
+" -----------------------------------------------------------------------------
+" 用于更方便的管理vim插件，具体用法参考 :h vundle 帮助
+" 安装方法为在终端输入如下命令
+" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" 如果想在 windows 安装就必需先安装 "git for window"，可查阅网上资料
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
+set nocompatible                                      "禁用 Vi 兼容模式
+filetype off                                          "禁用文件类型侦测
+
+if g:islinux
+    set rtp+=~/.vim/bundle/vundle/
+    call vundle#rc()
+else
+    set rtp+=$HOME/_vim/bundle/vundle/
+    call vundle#rc('$HOME/_vim/bundle/')
+endif
+
+" 使用Vundle来管理Vundle，这个必须要有。
+ Bundle 'gmarik/vundle'
+
+" 以下为要安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
+ Bundle 'vim-easy-align'
+ Bundle 'Yggdroot/indentLine'
+ Bundle 'kien/ctrlp.vim'
+ Bundle 'Shougo/neocomplcache'
+ Bundle 'Shougo/neosnippet'
+ Bundle 'Shougo/neosnippet-snippets'
+ Bundle 'scrooloose/nerdtree'
+ Bundle 'jistr/vim-nerdtree-tabs'
+ Bundle 'tpope/vim-surround'
+ Bundle 'Rykka/colorv.vim'
+ Bundle 'bling/vim-airline'
+ Bundle 'Emmet.vim'
+ Bundle 'tComment'
+ Bundle 'repeat.vim'
+ Bundle 'syntastic'
+ Bundle 'tagbar'
+
+" -----------------------------------------------------------------------------
+"  < 一般设置 >
+" -----------------------------------------------------------------------------
 set history=700
+syntax enable
 
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
+" -----------------------------------------------------------------------------
+"  < 编码配置 >
+" -----------------------------------------------------------------------------
+" 注：使用utf-8格式后，软件与程序源码、文件路径不能有中文，否则报错
+set encoding=utf-8                                    "设置gvim内部编码
+set fileencoding=utf-8                                "设置当前文件编码
+set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1     "设置支持打开的文件的编码
 
-" Set to auto read when a file is changed from the outside
+" 文件格式，默认 ffs=dos,unix
+set fileformat=unix                                   "设置新文件的<EOL>格式
+set fileformats=unix,dos,mac                          "给出文件的<EOL>格式类型
+
+if (g:iswindows && g:isGUI)
+    "解决菜单乱码
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+
+    "解决consle输出乱码
+    language messages zh_CN.utf-8
+endif
+
+" -----------------------------------------------------------------------------
+"  < 编写文件时的配置 >
+" -----------------------------------------------------------------------------
+filetype on                                           "启用文件类型侦测
+filetype plugin on                                    "针对不同的文件类型加载对应的插件
+filetype plugin indent on                             "启用缩进
+set smartindent                                       "启用智能对齐方式
+set expandtab                                         "将Tab键转换为空格
+set tabstop=2                                         "设置Tab键的宽度
+set shiftwidth=2                                      "换行时自动缩进4个空格
+set smarttab                                          "指定按一次backspace就删除shiftwidth宽度的空格
+set foldenable                                        "启用折叠
+set foldmethod=indent                                 "indent 折叠方式
+" set foldmethod=marker                                "marker 折叠方式
+
+" 用空格键来开关当前折叠
+nnoremap <space> za
+
+" 当文件在外部被修改，自动更新该文件
 set autoread
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
+" 常规模式下输入 cS 清除行尾空格
+nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
+
+" 常规模式下输入 cM 清除行尾 ^M 符号
+nnoremap cM :%s/\r$//g<CR>:noh<CR>
+
+set ignorecase                                        "搜索模式里忽略大小写
+set smartcase                                         "如果搜索模式包含大写字符，不使用 'ignorecase' 选项，只有在输入搜索模式并且打开 'ignorecase' 选项时才会使用
+" set noincsearch                                       "在输入要搜索的文字时，取消实时匹配
+
+"用<C-k,j,h,l>在插入模式下移动光标
+imap <c-k> <Up>
+imap <c-j> <Down>
+imap <c-h> <Left>
+imap <c-l> <Right>
+
+" 启用每行超过80列的字符提示（字体变蓝并加下划线），不启用就注释掉
+"au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 80 . 'v.\+', -1)
+
+" 自动切换目录为当前编辑文件所在目录
+"au BufRead,BufNewFile,BufEnter * cd %:p:h
+set autochdir
+
+" 命令使用宽菜单
+set wildmenu
+
+"常规模式下<c-h,l>在tab窗口间跳转
+nnoremap <c-h> :tabp<CR>
+nnoremap <c-l> :tabn<CR>
+
+set showcmd		" display incomplete commands
+
+" -----------------------------------------------------------------------------
+"  < 界面配置 >
+" -----------------------------------------------------------------------------
+set number                                            "显示行号
+set relativenumber                                            "显示相对行号
+set laststatus=2                                      "启用状态栏信息
+set cmdheight=2                                       "设置命令行的高度为2，默认为1
+set cursorline                                        "突出显示当前行
+set nowrap                                            "设置不自动换行
+set shortmess=atI                                     "去掉欢迎界面
+
+" 设置 gVim 窗口初始位置及大小
+if g:isGUI
+    " au GUIEnter * simalt ~x                           "窗口启动时自动最大化
+    winpos 100 10                                     "指定窗口出现的位置，坐标原点在屏幕左上角
+    set lines=38 columns=120                          "指定窗口大小，lines为高度，columns为宽度
+endif
+
+" 设置代码配色方案
+if g:isGUI
+    colorscheme Tomorrow-Night-Eighties               "Gvim配色方案
+else
+    colorscheme Tomorrow-Night-Eighties               "终端配色方案
+endif
+
+" 显示/隐藏菜单栏、工具栏、滚动条，可用 Ctrl + F11 切换
+if g:isGUI
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
+        \set guioptions-=m <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=r <Bar>
+        \sed guioptions-=L <Bar>
+    \else <Bar>
+        \set guioptions+=m <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=r <Bar>
+        \set guioptions+=L <Bar>
+    \endif<CR>
+endif
+
+" -----------------------------------------------------------------------------
+"  < 其它配置 >
+" -----------------------------------------------------------------------------
+set writebackup                             "保存文件前建立备份，保存成功后删除该备份
+set nobackup                                "设置无备份文件
+" set noswapfile                              "设置无临时文件
+" set vb t_vb=                                "关闭提示音
 let mapleader = ","
 let g:mapleader = ","
 
-" Fast saving
-nmap <leader>w :w!<cr>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
-" Turn on the WiLd menu
-set wildmenu
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-
-"Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=2
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases 
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
-
-" For regular expressions turn magic on
-set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
+" =============================================================================
+"                          << 以下为常用插件配置 >>
+" =============================================================================
 
-colorscheme desert
-set background=dark
+" -----------------------------------------------------------------------------
+"  < vim-easy-align 插件配置 >
+" -----------------------------------------------------------------------------
+" 一个对齐的插件，用来排版与对齐代码
+vnoremap <silent> <Enter> :EasyAlign<cr>
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
+" -----------------------------------------------------------------------------
+"  < Emmet 插件配置 >
+" -----------------------------------------------------------------------------
+" 以前的Zen Coding，用于快速编写HTML
+imap <Leader>a <c-y>,
+nmap <Leader>a <c-y>,
+
+" -----------------------------------------------------------------------------
+"  < indentLine 插件配置 >
+" -----------------------------------------------------------------------------
+" 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
+" 在终端上会有屏幕刷新的问题，这个问题能解决有更好了
+" 开启/关闭对齐线
+nnoremap <leader>i :IndentLinesToggle<CR>
+
+" 设置Gvim的对齐线样式
+if g:isGUI
+    let g:indentLine_char = "|"
+    let g:indentLine_first_char = "|"
 endif
 
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
+" 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+let g:indentLine_color_term = 239
 
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
+" 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+" let g:indentLine_color_gui = '#A4E57E'
 
+" -----------------------------------------------------------------------------
+"  < ctrlp 插件配置 >
+" -----------------------------------------------------------------------------
+" 快速打开文件，buffer等
+let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:20,result:20'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
+" -----------------------------------------------------------------------------
+"  < neocomplcache 插件配置 >
+" -----------------------------------------------------------------------------
+" 关键字补全、文件路径补全、tag补全等等，各种，非常好用，速度超快。
+let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
+" let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
+" 在弹出补全列表后用 <c-p> 或 <c-n> 进行上下选择效果比较好
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"   "用 tab 键向下选择
+inoremap <expr><s-TAB>  pumvisible() ? "\<C-p>" : "\<s-TAB>"   "用 shift + tab 键向上选择
 
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
-" Be smart when using tabs ;)
-set smarttab
+" -----------------------------------------------------------------------------
+"  < neosnippet 插件配置 >
+" -----------------------------------------------------------------------------
+" 用 Enter 键展开代码片段
+imap <expr><Enter> neosnippet#expandable() ?
+\ "\<Plug>(neosnippet_expand)" : "\<Enter>"
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+" 用 TAB 键在展开的代码中移动光标
+imap <expr><TAB> neosnippet#jumpable() ?
+\ "\<Plug>(neosnippet_jump)"
+\ : pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Treat long lines as break lines (useful when moving around in them)
-map j gj
-map k gk
-
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
-" Smart way to move between windows
-"map <C-j> <C-W>j
-"map <C-k> <C-W>k
-"map <C-h> <C-W>h
-"map <C-l> <C-W>l
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>
-
-" Close all the buffers
-map <leader>ba :1,1000 bd!<cr>
-
-" Useful mappings for managing tabs
-"map <leader>tn :tabnew<cr>
-"map <leader>to :tabonly<cr>
-"map <leader>tc :tabclose<cr>
-"map <leader>tm :tabmove
-
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-" Specify the behavior when switching between buffers 
-try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
-catch
-endtry
-
-" Return to last edit position when opening files (You want this!)
-"autocmd BufReadPost *
-"     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"     \   exe "normal! g`\"" |
-"     \ endif
-" Remember info about open buffers on close
-"set viminfo^=%
-
-
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-"set laststatus=2
-
-" Format the status line
-"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-
-" Returns true if paste mode is enabled
-"function! HasPaste()
-"    if &paste
-"        return 'PASTE MODE  '
-"    en
-"    return ''
-"endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-map 0 ^
-
-" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
-nmap <C-j> mz:m+<cr>`z
-nmap <C-k> mz:m-2<cr>`z
-vmap <C-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <C-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
 endif
 
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-autocmd BufWrite *.py :call DeleteTrailingWS()
-endfunc
+" -----------------------------------------------------------------------------
+"  < tComment 插件配置 >
+" -----------------------------------------------------------------------------
+" 以下为插件常用默认快捷键
+
+" 常规模式下
+"     gcc 注释/取消注释当前行
+"     gc{motion}  注释/取消注释{motion}内容
+"     gCc 注释当前行
+"     gC{motion} 注释{motion}内容
+"
+" 可视模式下:
+"     gc  注释/取消注释选中的区域
+"     gC  注释选中的区域
+
+"let g:tcommentMapLeaderOp1="\"  "替换命令前缀gc
+" let g:tcommentMapLeaderOp2="\"  "替换命令前缀gC
+nmap <Leader>m gcc
+vmap <Leader>m gc
+"vmap gc gcc
+
+" -----------------------------------------------------------------------------
+"  < nerdtree 插件配置 >
+" -----------------------------------------------------------------------------
+" 有目录村结构的文件浏览插件
+" 常规模式下输入 <c-n> 调用插件
+"nmap <c-n> :NERDTreeToggle<CR>
+
+" -----------------------------------------------------------------------------
+"  < vim-nerdtree-tabs 插件配置 >
+" -----------------------------------------------------------------------------
+" 增强 nerdtree 插件的功能，包括统一使用同一个目录树，优化tab窗口标题等
+" 常规模式下输入 <c-n> 调用插件
+let g:nerdtree_tabs_open_on_gui_startup=0 "gvim启动时不打开目录树
+map <c-n> <plug>NERDTreeTabsToggle<CR>
+
+" -----------------------------------------------------------------------------
+"  < airline 插件配置 >
+" -----------------------------------------------------------------------------
+" 状态栏插件，更好的状态栏效果
+let g:airline_left_sep=' | '
+let g:airline_right_sep=' | '
+
+let g:airline_section_b = '%{getcwd()}'
+let g:airline_section_c = '%t'
 
 
+" -----------------------------------------------------------------------------
+"  < repeat 插件配置 >
+" -----------------------------------------------------------------------------
+" 主要用"."命令来重复上次插件使用的命令
+
+" -----------------------------------------------------------------------------
+"  < surround 插件配置 >
+" -----------------------------------------------------------------------------
+" 快速给单词/句子两边增加符号（包括html标签），缺点是不能用"."来重复命令
+" 不过 repeat 插件可以解决这个问题，详细帮助见 :h surround.txt
+
+" -----------------------------------------------------------------------------
+"  < Syntastic 插件配置 >
+" -----------------------------------------------------------------------------
+" 用于保存文件时查检语法
+" 在打开文件的时候检查
+let g:syntastic_check_on_open=1
+" phpcs，tab 4个空格，编码参考使用CodeIgniter风格
+let g:syntastic_phpcs_conf = "--tab-width=4"
+" 打开错误列表，并将
+noremap <Leader>e :Errors<CR> <c-w>j
+
+" -----------------------------------------------------------------------------
+"  < Tagbar 插件配置 >
+" -----------------------------------------------------------------------------
+" 相对 TagList 能更好的支持面向对象
+let g:tagbar_width=40                       "设置窗口宽度
+nmap <Leader>t :TagbarToggle<CR>
+
+
+" =============================================================================
+"                          << 以下为常用工具配置 >>
+" =============================================================================
+
+" -----------------------------------------------------------------------------
+"  < ctags 工具配置 >
+" -----------------------------------------------------------------------------
+" 对浏览代码非常的方便,可以在函数,变量之间跳转等
+"set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
+set tags=tags;
+
+" 生成 ctags 文件，需要转到项目根目录再生成
+nnoremap <Leader>ct :!ctags --langmap=php:.engine.inc.module.theme.install.php --php-kinds=cdfi --languages=php --recurse<CR>
+
+" -----------------------------------------------------------------------------
+"  < gvimfullscreen 工具配置 > 请确保已安装了工具
+" -----------------------------------------------------------------------------
+" 用于 Windows Gvim 全屏窗口，可用 F11 切换
+" 全屏后再隐藏菜单栏、工具栏、滚动条效果更好
+if (g:iswindows && g:isGUI)
+    map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+endif
+
+" -----------------------------------------------------------------------------
+"  < PHP Manual 配置 >
+" -----------------------------------------------------------------------------
+if g:islinux
+    set runtimepath+=$HOME/.vim/php
+else
+    set runtimepath+=$HOME/_vim/php
+endif
+autocmd BufNewFile,Bufread *.inc,*.php set keywordprg="help"
+
+" -----------------------------------------------------------------------------
+"  < Drupal 相关配置 >
+" -----------------------------------------------------------------------------
+if has("autocmd")
+  " Drupal *.module and *.install files.
+  augroup module
+    autocmd BufRead,BufNewFile *.module set filetype=php
+    autocmd BufRead,BufNewFile *.install set filetype=php
+    autocmd BufRead,BufNewFile *.test set filetype=php
+    autocmd BufRead,BufNewFile *.inc set filetype=php
+    autocmd BufRead,BufNewFile *.profile set filetype=php
+    autocmd BufRead,BufNewFile *.view set filetype=php
+  augroup END
+endif
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+
+" 简化寄存器的复制粘贴
+" nnoremap <Leader>y "+y
+nnoremap <Leader>p "+gp
+nnoremap <Leader>P "+gP
+
+" 简化退出与保存操作
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>w :w!<CR>
