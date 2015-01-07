@@ -65,9 +65,9 @@ endif
 set history=1000
 
 " 启用文件类型侦测
-" filetype on                                           
+" filetype on
 " 针对不同的文件类型加载对应的插件
-filetype plugin on                                    
+filetype plugin on
 
 " 设置 mapleader 为,
 let mapleader = ","
@@ -107,53 +107,53 @@ set wildignore+=*.o,*~,*.pyc,.*.swp
 set ruler
 
 " 设置命令行的高度为2，默认为1
-set cmdheight=2                                       
+set cmdheight=2
 
 " 启用状态栏信息
-set laststatus=2                                      
+set laststatus=2
 
-"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-"set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %c:%l/%L%)
-  set statusline=%n\ %<%f\ %LL\ %{&modified?'[+]':&modifiable\|\|&ft=~'^\\vhelp\|qf$'?'':'[-]'}%h%r%{&fenc=='utf-8'\|\|&fenc==''?'':'['.&fenc.']'}%{&ff=='unix'?'':'['.&ff.']'}%{&bomb?'[BOM]':''}%{&eol?'':'[noeol]'}%=\ 0x%-4.8B\ \ \ \ %-14.(%l,%c%V%)\ %P
-
-  "set statusline=%n\ %<%f\ %L?\ %{&modified?'[+]':&modifiable\|\|&ft=~'^\\vhelp\|qf$'?'':'[-]'}%h%r%{&fenc=='utf-8'\|\|&fenc==''?'':'['.&fenc.']'}%{&ff=='unix'?'':'['.&ff.']'}%{&bomb?'[BOM]':''}%{&eol?'':'[noeol]'}%=\ 0x%-4.8B\ \ \ \ %-14.(%l,%c%V%)\ %P
-
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    en
-    return ''
-endfunction
+" 状态栏显示信息
+set statusline=%n\                                  "缓冲区号
+set statusline+=%f\ %LL\                            "缓冲区中的文件路径，文件总行数
+set statusline+=%h%m%r%w\                           "显示 帮助，已修改，只读，预览 等状态标记
+set statusline+=\|\ %<%{getcwd()}\                  "当前工作目录
+set statusline+=%=[%{strlen(&ft)?&ft:'no\ ft'},\    "文件类型
+set statusline+=%{&fenc},\                          "文件编码
+set statusline+=%{&fileformat}]\                    "文件格式
+set statusline+=%4{&bomb?'[BOM]':''}\               "BOM标记
+set statusline+=%-4.(\ %)                           "增加间距
+set statusline+=%-14.(%b,0x%-4.8B%)\                "光标下字符的十进制,十六进制表示
+set statusline+=%-10.(%l,%c%V%)\ %P                 "行，列及光标所在位置百分比
 
 " 显示行号
-set number                                            
+set number
 
 " 显示相对行号
-set relativenumber                                            
+set relativenumber
 
 " 上下可视行数
 set scrolloff=7
 
 " 突出显示当前行
-set cursorline                                        
+set cursorline
 
 " 设置不自动换行
-set nowrap                                            
+set nowrap
 
 " 去掉欢迎界面
-set shortmess=atI                                     
+set shortmess=atI
 
 " 搜索时忽略大小写
-set ignorecase                                        
+set ignorecase
 
 " 搜索时尝试智能设定大小写敏感性
-set smartcase                                         
+set smartcase
 
 " 高亮搜索结果
 set hlsearch
 
 " 实时匹配要搜索的文字
-set incsearch                                       
+set incsearch
 
 " 禁用循环搜索
 set nowrapscan
@@ -217,50 +217,50 @@ set background=dark
 "  < 文件与备份 >
 " -----------------------------------------------------------------------------
 " 保存文件前建立备份，保存成功后删除该备份
-set writebackup                             
+set writebackup
 
 " 设置无备份文件
-set nobackup                                
+set nobackup
 
 " 设置无临时文件
-" set noswapfile                              
+" set noswapfile
 
 " -----------------------------------------------------------------------------
 "  < 文本与缩进 >
 " -----------------------------------------------------------------------------
 " 启用智能对齐方式(smartindent 对 python 的注释缩进有问题，建议不启用)
-"set smartindent                                       
+"set smartindent
 
 " 启用缩进
-" filetype plugin indent on                             
-filetype indent on                             
+" filetype plugin indent on
+filetype indent on
 
 " 将Tab键转换为空格
-set expandtab                                         
+set expandtab
 
 " 设置Tab键的宽度
-set tabstop=4                                         
+set tabstop=4
 
 " 换行时自动缩进4个空格
-set shiftwidth=4                                      
+set shiftwidth=4
 
 " 指定按一次backspace就删除shiftwidth宽度的空格
-set smarttab                                          
+set smarttab
 
 " 光标超过设置的列数时断行
-set textwidth=80
+"set textwidth=80
 " 好像没作用
 "set wrap
 
-" 断行时不截断单词 
+" 断行时不截断单词
 set linebreak
 
 " 启用折叠
-set foldenable                                        
+set foldenable
 
 " indent 折叠方式
-set foldmethod=indent                                 
-" set foldmethod=marker                                
+set foldmethod=indent
+" set foldmethod=marker
 
 " 用空格键来开关当前折叠
 nnoremap <space> za
