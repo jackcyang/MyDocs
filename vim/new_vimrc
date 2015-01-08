@@ -39,25 +39,26 @@ else
 endif
 
 " 使用Vundle来管理Vundle，这个必须要有。
- Bundle 'gmarik/vundle'
+Bundle 'gmarik/vundle'
 
 " 以下为要安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
-"  Bundle 'vim-easy-align'
-"  Bundle 'Yggdroot/indentLine'
-"  Bundle 'kien/ctrlp.vim'
-"  Bundle 'Shougo/neocomplcache'
-"  Bundle 'Shougo/neosnippet'
-"  Bundle 'Shougo/neosnippet-snippets'
-"  Bundle 'scrooloose/nerdtree'
-"  Bundle 'jistr/vim-nerdtree-tabs'
-"  Bundle 'tpope/vim-surround'
-"  Bundle 'Rykka/colorv.vim'
-"  Bundle 'bling/vim-airline'
-"  Bundle 'Emmet.vim'
-"  Bundle 'tComment'
-"  Bundle 'repeat.vim'
-"  Bundle 'syntastic'
-"  Bundle 'tagbar'
+Bundle 'vim-easy-align'
+Bundle 'Yggdroot/indentLine'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/neosnippet-snippets'
+Bundle 'scrooloose/nerdtree'
+Bundle 'jistr/vim-nerdtree-tabs'
+Bundle 'tpope/vim-surround'
+Bundle 'Rykka/colorv.vim'
+Bundle 'fholgado/minibufexpl.vim'
+"Bundle 'bling/vim-airline'
+Bundle 'Emmet.vim'
+Bundle 'tComment'
+Bundle 'repeat.vim'
+Bundle 'syntastic'
+Bundle 'tagbar'
 
 " -----------------------------------------------------------------------------
 "  < 一般设置 >
@@ -65,7 +66,8 @@ endif
 set history=1000
 
 " 启用文件类型侦测
-" filetype on
+filetype on
+
 " 针对不同的文件类型加载对应的插件
 filetype plugin on
 
@@ -77,37 +79,67 @@ let g:mapleader = ","
 "  < 编码配置 >
 " -----------------------------------------------------------------------------
 " 注：使用utf-8格式后，软件与程序源码、文件路径不能有中文，否则报错
-set encoding=utf-8                                    "设置gvim内部编码
-set fileencoding=utf-8                                "设置当前文件编码
-set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1     "设置支持打开的文件的编码
+" vim内部编码
+set encoding=utf-8                                    
+
+" 当前文件编码
+set fileencoding=utf-8                                
+
+" 支持打开的文件的编码
+set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1     
+
+" 当encoding为utf-8时，将CJK字符按双字节显示
+set ambiwidth=double
 
 " 文件格式，默认 ffs=dos,unix
-set fileformat=unix                                   "设置新文件的<EOL>格式
-set fileformats=unix,dos,mac                          "给出文件的<EOL>格式类型
+" 设置新文件的<EOL>格式
+set fileformat=unix                                   
 
-"if (g:iswindows && g:isGUI)
-"    "解决菜单乱码
-"    source $VIMRUNTIME/delmenu.vim
-"    source $VIMRUNTIME/menu.vim
-"
-"    "解决consle输出乱码
-"    language messages zh_CN.utf-8
-"endif
+" 给出文件的<EOL>格式类型
+set fileformats=unix,dos,mac                          
+
+" window 中 GUI 界面乱码问题
+if (g:iswindows && g:isGUI)
+    "解决菜单乱码
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+
+    "解决consle输出乱码
+    language messages zh_CN.utf-8
+endif
 
 " -----------------------------------------------------------------------------
 "  < 用户界面 >
 " -----------------------------------------------------------------------------
-" 命令使用宽菜单
-set wildmenu
-
-" 忽略以下的文件类型
-set wildignore+=*.o,*~,*.pyc,.*.swp
+" 去掉欢迎界面
+set shortmess=atI
 
 " 显示标尺
 set ruler
 
+" 显示行号
+set number
+
+" 显示相对行号
+set relativenumber
+
+" 上下可视行数
+set scrolloff=7
+
+" 突出显示当前行
+set cursorline
+
+" 忽略以下的文件类型
+set wildignore+=*.o,*~,*.pyc,.*.swp
+
 " 设置命令行的高度为2，默认为1
 set cmdheight=2
+
+" 命令使用宽菜单
+set wildmenu
+
+" 显示完整命令
+set showcmd		
 
 " 启用状态栏信息
 set laststatus=2
@@ -125,83 +157,39 @@ set statusline+=%-4.(\ %)                           "增加间距
 set statusline+=%-14.(%b,0x%-4.8B%)\                "光标下字符的十进制,十六进制表示
 set statusline+=%-10.(%l,%c%V%)\ %P                 "行，列及光标所在位置百分比
 
-" 显示行号
-set number
-
-" 显示相对行号
-set relativenumber
-
-" 上下可视行数
-set scrolloff=7
-
-" 突出显示当前行
-set cursorline
-
-" 设置不自动换行
-set nowrap
-
-" 去掉欢迎界面
-set shortmess=atI
-
-" 搜索时忽略大小写
-set ignorecase
-
-" 搜索时尝试智能设定大小写敏感性
-set smartcase
-
-" 高亮搜索结果
-set hlsearch
-
-" 实时匹配要搜索的文字
-set incsearch
-
-" 禁用循环搜索
-set nowrapscan
-
-" 在执行宏操作时不重绘（延迟重绘，提升性能）
-set lazyredraw
-
 " 关闭错误提示音
 set noerrorbells
 set novisualbell
 set vb t_vb=
 
-" 设定在插入状态可以用 Backspace 和 Delete 键删除
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
+" gVim 窗口初始位置，大小及菜单等设置
+if g:isGUI
+    if g:iswindows
+        " 窗口启动时自动最大化
+        autocmd GUIEnter * simalt ~x                           
+    else
+        " 指定窗口出现的位置，坐标原点在屏幕左上角
+        winpos 100 10                                     
 
-"" 设置 gVim 窗口初始位置及大小
-"if g:isGUI
-"    " au GUIEnter * simalt ~x                           "窗口启动时自动最大化
-"    winpos 100 10                                     "指定窗口出现的位置，坐标原点在屏幕左上角
-"    set lines=38 columns=120                          "指定窗口大小，lines为高度，columns为宽度
-"endif
-"
-"" 设置代码配色方案
-"if g:isGUI
-"    colorscheme Tomorrow-Night-Eighties               "Gvim配色方案
-"else
-"    colorscheme Tomorrow-Night-Eighties               "终端配色方案
-"endif
-"
-"" 显示/隐藏菜单栏、工具栏、滚动条，可用 Ctrl + F11 切换
-"if g:isGUI
-"    set guioptions-=m
-"    set guioptions-=T
-"    set guioptions-=r
-"    set guioptions-=L
-"    map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
-"        \set guioptions-=m <Bar>
-"        \set guioptions-=T <Bar>
-"        \set guioptions-=r <Bar>
-"        \sed guioptions-=L <Bar>
-"    \else <Bar>
-"        \set guioptions+=m <Bar>
-"        \set guioptions+=T <Bar>
-"        \set guioptions+=r <Bar>
-"        \set guioptions+=L <Bar>
-"    \endif<CR>
-"endif
+        " 指定窗口大小，lines为高度，columns为宽度
+        set lines=38 columns=120                          
+    endif
+    
+    " <F9> 切换显示/隐藏菜单栏、工具栏，默认隐藏
+    set guioptions-=m
+    set guioptions-=T
+    noremap <F9> :call Toggle_menu_toolbar()<cr>
+
+    function Toggle_menu_toolbar()
+        if &guioptions =~# 'T'
+            set guioptions-=T
+            set guioptions-=m
+        else
+            set guioptions+=T
+            set guioptions+=m    
+        endif
+    endfunction
+endif
 
 " -----------------------------------------------------------------------------
 "  < 颜色与字体 >
@@ -252,6 +240,9 @@ set smarttab
 " 好像没作用
 "set wrap
 
+" 设置不自动换行
+set nowrap
+
 " 断行时不截断单词
 set linebreak
 
@@ -266,7 +257,7 @@ set foldmethod=indent
 nnoremap <space> za
 
 " -----------------------------------------------------------------------------
-"  < 按键 Mappings >
+"  < 一般按键 Mappings >
 " -----------------------------------------------------------------------------
 " 将一行长文本当成多行文本来移动光标
 map j gj
@@ -274,6 +265,15 @@ map k gk
 
 " 重新设置定位行首非空字符的按键
 map 0 ^
+
+" 简化退出与保存操作
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>w :w!<CR>
+
+" 简化系统剪贴板的复制粘贴
+" nnoremap <Leader>y "+y
+nnoremap <Leader>p "+gp
+nnoremap <Leader>P "+gP
 
 " 关闭搜索结果高亮显示
 map <silent> <leader>nh :nohlsearch<cr>
@@ -317,16 +317,222 @@ set autoread
 "autocmd BufEnter * silent! cd %:p:h
 set autochdir
 
-set showcmd		" display incomplete commands
+" 搜索时忽略大小写
+set ignorecase
 
+" 搜索时尝试智能设定大小写敏感性
+set smartcase
 
+" 高亮搜索结果
+set hlsearch
+
+" 实时匹配要搜索的文字
+set incsearch
+
+" 禁用循环搜索
+set nowrapscan
+
+" 在执行宏操作时不重绘（延迟重绘，提升性能）
+set lazyredraw
+
+" 设定在插入状态可以用 Backspace 和 Delete 键删除
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
 
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
+" PHP Manual 配置
+if g:iswindows
+    set runtimepath+=$HOME/_vim/php
+else
+    set runtimepath+=$HOME/.vim/php
+endif
+autocmd BufNewFile,BuFread *.inc,*.php set keywordprg="help"
+
+" 设置 Drupal 文件的语法高亮
+autocmd BufNewFile,BufRead *.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php
 
 
 
+" =============================================================================
+"                          << 常用工具配置 >>
+" =============================================================================
+
+" ctags 工具
+set tags=tags;
+
+" 生成 ctags 文件，需要转到项目根目录再生成
+nnoremap <Leader>ct :!ctags --langmap=php:.engine.inc.module.theme.install.php --php-kinds=cdfi --languages=php --recurse<CR>
+
+" gvimfullscreen 工具，用于 Windows Gvim 全屏窗口，可用 F11 切换
+if (g:iswindows && g:isGUI)
+    map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+endif
 
 
+
+" =============================================================================
+"                          << 插件详细配置 >>
+" =============================================================================
+
+" -----------------------------------------------------------------------------
+"  < vim-easy-align 插件配置 >
+" -----------------------------------------------------------------------------
+" 一个对齐的插件，用来排版与对齐代码
+vnoremap <silent> <Enter> :EasyAlign<cr>
+
+" -----------------------------------------------------------------------------
+"  < Emmet 插件配置 >
+" -----------------------------------------------------------------------------
+" 以前的Zen Coding，用于快速编写HTML
+imap <Leader>a <c-y>,
+nmap <Leader>a <c-y>,
+
+" -----------------------------------------------------------------------------
+"  < indentLine 插件配置 >
+" -----------------------------------------------------------------------------
+" 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
+" 在终端上会有屏幕刷新的问题，这个问题能解决有更好了
+" 开启/关闭对齐线
+nnoremap <leader>i :IndentLinesToggle<CR>
+
+" 设置Gvim的对齐线样式
+if g:isGUI
+    let g:indentLine_char = "|"
+    let g:indentLine_first_char = "|"
+endif
+
+" 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+let g:indentLine_color_term = 239
+
+" 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+" let g:indentLine_color_gui = '#A4E57E'
+
+" -----------------------------------------------------------------------------
+"  < ctrlp 插件配置 >
+" -----------------------------------------------------------------------------
+" 快速打开文件，buffer等
+let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:20,result:20'
+
+" -----------------------------------------------------------------------------
+"  < neocomplcache 插件配置 >
+" -----------------------------------------------------------------------------
+" 关键字补全、文件路径补全、tag补全等等，各种，非常好用，速度超快。
+let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
+" let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
+" 在弹出补全列表后用 <c-p> 或 <c-n> 进行上下选择效果比较好
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"   "用 tab 键向下选择
+inoremap <expr><s-TAB>  pumvisible() ? "\<C-p>" : "\<s-TAB>"   "用 shift + tab 键向上选择
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+
+" -----------------------------------------------------------------------------
+"  < neosnippet 插件配置 >
+" -----------------------------------------------------------------------------
+" 用 Enter 键展开代码片段
+imap <expr><Enter> neosnippet#expandable() ?
+\ "\<Plug>(neosnippet_expand)" : "\<Enter>"
+
+" 用 TAB 键在展开的代码中移动光标
+imap <expr><TAB> neosnippet#jumpable() ?
+\ "\<Plug>(neosnippet_jump)"
+\ : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" -----------------------------------------------------------------------------
+"  < tComment 插件配置 >
+" -----------------------------------------------------------------------------
+" 以下为插件常用默认快捷键
+
+" 常规模式下
+"     gcc 注释/取消注释当前行
+"     gc{motion}  注释/取消注释{motion}内容
+"     gCc 注释当前行
+"     gC{motion} 注释{motion}内容
+"
+" 可视模式下:
+"     gc  注释/取消注释选中的区域
+"     gC  注释选中的区域
+
+"let g:tcommentMapLeaderOp1="\"  "替换命令前缀gc
+" let g:tcommentMapLeaderOp2="\"  "替换命令前缀gC
+nmap <Leader>m gcc
+vmap <Leader>m gc
+"vmap gc gcc
+
+" -----------------------------------------------------------------------------
+"  < nerdtree 插件配置 >
+" -----------------------------------------------------------------------------
+" 有目录村结构的文件浏览插件
+" 常规模式下输入 <c-n> 调用插件
+"nmap <c-n> :NERDTreeToggle<CR>
+
+" -----------------------------------------------------------------------------
+"  < vim-nerdtree-tabs 插件配置 >
+" -----------------------------------------------------------------------------
+" 增强 nerdtree 插件的功能，包括统一使用同一个目录树，优化tab窗口标题等
+" 常规模式下输入 <c-n> 调用插件
+let g:nerdtree_tabs_open_on_gui_startup=0 "gvim启动时不打开目录树
+map <c-n> <plug>NERDTreeTabsToggle<CR>
+
+" -----------------------------------------------------------------------------
+"  < minibufexpl 插件配置 >
+" -----------------------------------------------------------------------------
+
+
+
+" -----------------------------------------------------------------------------
+"  < airline 插件配置 >
+" -----------------------------------------------------------------------------
+" 状态栏插件，更好的状态栏效果
+let g:airline_left_sep=' | '
+let g:airline_right_sep=' | '
+
+let g:airline_section_b = '%{getcwd()}'
+let g:airline_section_c = '%t'
+
+" -----------------------------------------------------------------------------
+"  < repeat 插件配置 >
+" -----------------------------------------------------------------------------
+" 主要用"."命令来重复上次插件使用的命令
+
+" -----------------------------------------------------------------------------
+"  < surround 插件配置 >
+" -----------------------------------------------------------------------------
+" 快速给单词/句子两边增加符号（包括html标签），缺点是不能用"."来重复命令
+" 不过 repeat 插件可以解决这个问题，详细帮助见 :h surround.txt
+
+" -----------------------------------------------------------------------------
+"  < Syntastic 插件配置 >
+" -----------------------------------------------------------------------------
+" 用于保存文件时查检语法
+" 在打开文件的时候检查
+let g:syntastic_check_on_open=1
+" phpcs，tab 4个空格，编码参考使用CodeIgniter风格
+let g:syntastic_phpcs_conf = "--tab-width=4"
+" 打开错误列表，并将
+noremap <Leader>e :Errors<CR> <c-w>j
+
+" -----------------------------------------------------------------------------
+"  < Tagbar 插件配置 >
+" -----------------------------------------------------------------------------
+" 相对 TagList 能更好的支持面向对象
+let g:tagbar_width=40                       "设置窗口宽度
+nmap <Leader>t :TagbarToggle<CR>
 
