@@ -275,6 +275,13 @@ nnoremap <Leader>w :w!<CR>
 nnoremap <Leader>p "+gp
 nnoremap <Leader>P "+gP
 
+" 复制并在下方粘贴一行
+nnoremap <c-d> yyp
+inoremap <c-d> <ESC>yyp
+
+" 复制并在上方粘贴选中的内容，且增加一空白行
+vnoremap <c-d> yO<ESC>P
+
 " 关闭搜索结果高亮显示
 map <silent> <leader>nh :nohlsearch<cr>
 
@@ -284,28 +291,23 @@ nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
 " 常规模式下输入 cM 清除行尾 ^M 符号
 nnoremap cM :%s/\r$//g<CR>:noh<CR>
 
-"用<c-k,j,h,l>在插入模式下移动光标
-imap <c-k> <Up>
+"用<c-j,k,h,l>在插入模式下移动光标
 imap <c-j> <Down>
+imap <c-k> <Up>
 imap <c-h> <Left>
 imap <c-l> <Right>
 
-" 常规模式下<c-h,l>在tab窗口间跳转
-nnoremap <c-h> :tabp<CR>
-nnoremap <c-l> :tabn<CR>
+" 常规模式下<c-j,k,h,l>在窗口间跳转
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-h> <c-w>h
+nmap <c-l> <c-w>l
 
 " 上下移动行或选中的行
-nmap <C-j> mz:m+<cr>`z
-nmap <C-k> mz:m-2<cr>`z
-vmap <C-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <C-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
+nmap <c-u> mz:m+<cr>`z
+nmap <c-i> mz:m-2<cr>`z
+vmap <c-u> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <c-i> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " -----------------------------------------------------------------------------
 "  < 编写文件时的配置 >
@@ -494,8 +496,8 @@ map <c-n> <plug>NERDTreeTabsToggle<CR>
 " -----------------------------------------------------------------------------
 "  < minibufexpl 插件配置 >
 " -----------------------------------------------------------------------------
-
-
+" 切换显示／隐藏 Minibufexpl 窗口
+nnoremap <Leader>t :MBEToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < airline 插件配置 >
@@ -534,5 +536,5 @@ noremap <Leader>e :Errors<CR> <c-w>j
 " -----------------------------------------------------------------------------
 " 相对 TagList 能更好的支持面向对象
 let g:tagbar_width=40                       "设置窗口宽度
-nmap <Leader>t :TagbarToggle<CR>
+nmap <Leader>tb :TagbarToggle<CR>
 
