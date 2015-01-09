@@ -191,6 +191,11 @@ if g:isGUI
     endfunction
 endif
 
+" 启用鼠标支持
+if has("mouse")
+    set mouse=a
+endif
+
 " -----------------------------------------------------------------------------
 "  < 颜色与字体 >
 " -----------------------------------------------------------------------------
@@ -237,11 +242,9 @@ set smarttab
 
 " 光标超过设置的列数时断行
 "set textwidth=80
-" 好像没作用
-"set wrap
 
-" 设置不自动换行
-set nowrap
+" 设置自动换行
+" set wrap
 
 " 断行时不截断单词
 set linebreak
@@ -254,60 +257,7 @@ set foldmethod=indent
 " set foldmethod=marker
 
 " 用空格键来开关当前折叠
-nnoremap <space> za
-
-" -----------------------------------------------------------------------------
-"  < 一般按键 Mappings >
-" -----------------------------------------------------------------------------
-" 将一行长文本当成多行文本来移动光标
-map j gj
-map k gk
-
-" 重新设置定位行首非空字符的按键
-map 0 ^
-
-" 简化退出与保存操作
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>w :w!<CR>
-
-" 简化系统剪贴板的复制粘贴
-" nnoremap <Leader>y "+y
-nnoremap <Leader>p "+gp
-nnoremap <Leader>P "+gP
-
-" 复制并在下方粘贴一行
-nnoremap <c-d> yyp
-inoremap <c-d> <ESC>yyp
-
-" 复制并在上方粘贴选中的内容，且增加一空白行
-vnoremap <c-d> yO<ESC>P
-
-" 关闭搜索结果高亮显示
-map <silent> <leader>nh :nohlsearch<cr>
-
-" 常规模式下输入 cS 清除行尾空格
-nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
-
-" 常规模式下输入 cM 清除行尾 ^M 符号
-nnoremap cM :%s/\r$//g<CR>:noh<CR>
-
-"用<c-j,k,h,l>在插入模式下移动光标
-imap <c-j> <Down>
-imap <c-k> <Up>
-imap <c-h> <Left>
-imap <c-l> <Right>
-
-" 常规模式下<c-j,k,h,l>在窗口间跳转
-nmap <c-j> <c-w>j
-nmap <c-k> <c-w>k
-nmap <c-h> <c-w>h
-nmap <c-l> <c-w>l
-
-" 上下移动行或选中的行
-nmap <c-u> mz:m+<cr>`z
-nmap <c-i> mz:m-2<cr>`z
-vmap <c-u> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <c-i> :m'<-2<cr>`>my`<mzgv`yo`z
+noremap <space> za
 
 " -----------------------------------------------------------------------------
 "  < 编写文件时的配置 >
@@ -342,6 +292,70 @@ set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
 " -----------------------------------------------------------------------------
+"  < 一般按键 Mappings >
+" -----------------------------------------------------------------------------
+" 将一行长文本当成多行文本来移动光标
+noremap j gj
+noremap k gk
+
+" 重新设置定位行首非空字符的按键
+noremap 0 ^
+
+" 简化退出与保存操作
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>w :w!<CR>
+
+" 简化系统剪贴板的复制粘贴 TODO:
+" nnoremap <Leader>y "+y
+nnoremap <Leader>p "+gp
+nnoremap <Leader>P "+gP
+
+" 复制并在下方粘贴一行
+nnoremap <c-d> yyp
+inoremap <c-d> <ESC>yyp
+
+" 复制并在上方粘贴选中的内容，且增加一空白行
+" vnoremap <c-d> yO<ESC>P
+
+" 常规模式下输入 cS 清除行尾空格
+nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
+
+" 常规模式下输入 cM 清除行尾 ^M 符号
+nnoremap cM :%s/\r$//g<CR>:noh<CR>
+
+" 使用 vimgrep 搜索
+noremap <leader>g :vimgrep // **/*.*<left><left><left><left><left><left><left><left>
+
+" 在当前文件内使用 vimgrep 搜索
+noremap <leader>f :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+
+" 关闭搜索结果高亮显示
+noremap <silent> <leader>nh :nohlsearch<cr>
+
+"用<c-j,k,h,l>在插入模式下移动光标
+inoremap <c-j> <Down>
+inoremap <c-k> <Up>
+inoremap <c-h> <Left>
+inoremap <c-l> <Right>
+
+" 常规模式下<c-j,k,h,l>在窗口间跳转
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" 上下移动行或选中的行
+" nnoremap <c-n> mz:m+<cr>`z
+" nnoremap <c-m> mz:m-2<cr>`z
+" vnoremap <c-n> :m'>+<cr>`<my`>mzgv`yo`z
+" vnoremap <c-m> :m'<-2<cr>`>my`<mzgv`yo`z
+
+" nnoremap j mz:m+<cr>`z
+" nnoremap k mz:m-2<cr>`z
+" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
+" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
+
+" -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
 " PHP Manual 配置
@@ -369,7 +383,7 @@ nnoremap <Leader>ct :!ctags --langmap=php:.engine.inc.module.theme.install.php -
 
 " gvimfullscreen 工具，用于 Windows Gvim 全屏窗口，可用 F11 切换
 if (g:iswindows && g:isGUI)
-    map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+    noremap <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 endif
 
 
@@ -424,8 +438,8 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:20,result:20'
 let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 " let g:neocomplcache_disable_auto_complete = 1 "不自动弹出补全列表
 " 在弹出补全列表后用 <c-p> 或 <c-n> 进行上下选择效果比较好
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"   "用 tab 键向下选择
-inoremap <expr><s-TAB>  pumvisible() ? "\<C-p>" : "\<s-TAB>"   "用 shift + tab 键向上选择
+imap <expr><TAB>  pumvisible() ? "\<c-n>" : "\<TAB>"   "用 tab 键向下选择
+imap <expr><s-TAB>  pumvisible() ? "\<c-p>" : "\<s-TAB>"   "用 shift + tab 键向上选择
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -450,7 +464,7 @@ imap <expr><Enter> neosnippet#expandable() ?
 " 用 TAB 键在展开的代码中移动光标
 imap <expr><TAB> neosnippet#jumpable() ?
 \ "\<Plug>(neosnippet_jump)"
-\ : pumvisible() ? "\<C-n>" : "\<TAB>"
+\ : pumvisible() ? "\<c-n>" : "\<TAB>"
 
 " For snippet_complete marker.
 if has('conceal')
@@ -491,13 +505,14 @@ vmap <Leader>m gc
 " 增强 nerdtree 插件的功能，包括统一使用同一个目录树，优化tab窗口标题等
 " 常规模式下输入 <c-n> 调用插件
 let g:nerdtree_tabs_open_on_gui_startup=0 "gvim启动时不打开目录树
-map <c-n> <plug>NERDTreeTabsToggle<CR>
+" nmap <c-n> <plug>NERDTreeTabsToggle<CR>
+nmap <Leader>n <plug>NERDTreeTabsToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < minibufexpl 插件配置 >
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
-nnoremap <Leader>t :MBEToggle<CR>
+nnoremap <Leader>b :MBEToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < airline 插件配置 >
@@ -536,5 +551,6 @@ noremap <Leader>e :Errors<CR> <c-w>j
 " -----------------------------------------------------------------------------
 " 相对 TagList 能更好的支持面向对象
 let g:tagbar_width=40                       "设置窗口宽度
-nmap <Leader>tb :TagbarToggle<CR>
+nnoremap <Leader>t :TagbarToggle<CR>
+" nnoremap <c-t><c-b> :TagbarToggle<CR>
 
