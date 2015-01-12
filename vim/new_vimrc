@@ -176,11 +176,14 @@ if g:isGUI
         set lines=38 columns=120                          
     endif
     
-    " <F9> 切换显示/隐藏菜单栏、工具栏，默认隐藏
+    "默认隐藏菜单栏、工具栏、左右滚动条
     set guioptions-=m
     set guioptions-=T
-    noremap <F9> :call Toggle_menu_toolbar()<cr>
+    set guioptions-=L
+    set guioptions-=r
 
+    " <F9> 切换显示/隐藏菜单栏、工具栏
+    noremap <F9> :call Toggle_menu_toolbar()<cr>
     function Toggle_menu_toolbar()
         if &guioptions =~# 'T'
             set guioptions-=T
