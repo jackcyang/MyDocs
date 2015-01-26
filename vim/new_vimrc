@@ -298,10 +298,6 @@ set whichwrap+=<,>,h,l
 " -----------------------------------------------------------------------------
 "  < 一般按键 Mappings >
 " -----------------------------------------------------------------------------
-" 将一行长文本当成多行文本来移动光标
-noremap j gj
-noremap k gk
-
 " 重新设置定位行首非空字符的按键
 noremap 0 ^
 
@@ -309,8 +305,9 @@ noremap 0 ^
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w!<CR>
 
-" 简化系统剪贴板的复制粘贴 TODO:
+" 简化系统剪贴板的复制粘贴 TODO:感觉复制还有点问题
 nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
 nnoremap <Leader>p "+gp
 nnoremap <Leader>P "+gP
 
