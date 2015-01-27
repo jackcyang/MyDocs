@@ -122,7 +122,9 @@ set ruler
 set number
 
 " 显示相对行号
-set relativenumber
+if exists('+relativenumber')
+    set relativenumber
+endif
 
 " 上下可视行数
 set scrolloff=7
