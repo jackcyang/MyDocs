@@ -1,8 +1,6 @@
 These are my vim configuration files.
 
 "vimrc" is my vimrc file.
-"Tomorrow-Night-Eighties.vim" is colorscheme file.
-"user_fonts" includes two font files for Windows.
 "gvimfullscreen.dll" is for gvim's fullscreen mode for Windows.
 
 "vim-php-manual.tgz" is php manual files for vim.
