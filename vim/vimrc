@@ -129,9 +129,6 @@ endif
 " 上下可视行数
 set scrolloff=7
 
-" 突出显示当前行
-set cursorline
-
 " 忽略以下的文件类型
 set wildignore+=*.o,*~,*.pyc,.*.swp
 
