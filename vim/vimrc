@@ -49,12 +49,11 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
 Bundle 'Shougo/neosnippet-snippets'
 Bundle 'scrooloose/nerdtree'
-Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'tpope/vim-surround'
 Bundle 'Rykka/colorv.vim'
 Bundle 'fholgado/minibufexpl.vim'
 Bundle 'terryma/vim-multiple-cursors'
-"Bundle 'bling/vim-airline'
+Bundle 'alvan/vim-php-manual'
 Bundle 'Emmet.vim'
 Bundle 'tComment'
 Bundle 'repeat.vim'
@@ -310,24 +309,11 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>p "+gp
 nnoremap <Leader>P "+gP
 
-" 复制并在下方粘贴一行
-nnoremap <c-d> yyp
-inoremap <c-d> <ESC>yyp
-
-" 复制并在上方粘贴选中的内容，且增加一空白行
-" vnoremap <c-d> yO<ESC>P
-
 " 常规模式下输入 cS 清除行尾空格
 nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
 
 " 常规模式下输入 cM 清除行尾 ^M 符号
 nnoremap cM :%s/\r$//g<CR>:noh<CR>
-
-" 使用 vimgrep 搜索
-noremap <leader>g :vimgrep // **/*.*<left><left><left><left><left><left><left><left>
-
-" 在当前文件内使用 vimgrep 搜索
-noremap <leader>f :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
 
 " 关闭搜索结果高亮显示
 noremap <silent> <leader>nh :nohlsearch<cr>
@@ -358,14 +344,6 @@ nnoremap <c-l> <c-w>l
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
-" PHP Manual 配置
-if g:iswindows
-    set runtimepath+=$HOME/_vim/php
-else
-    set runtimepath+=$HOME/.vim/php
-endif
-autocmd BufNewFile,BuFread *.inc,*.php set keywordprg="help"
-
 " 设置 Drupal 文件的语法高亮
 autocmd BufNewFile,BufRead *.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php
 
@@ -497,32 +475,13 @@ vmap <Leader>m gc
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
 " 常规模式下输入 <c-n> 调用插件
-"nmap <c-n> :NERDTreeToggle<CR>
-
-" -----------------------------------------------------------------------------
-"  < vim-nerdtree-tabs 插件配置 >
-" -----------------------------------------------------------------------------
-" 增强 nerdtree 插件的功能，包括统一使用同一个目录树，优化tab窗口标题等
-" 常规模式下输入 <c-n> 调用插件
-let g:nerdtree_tabs_open_on_gui_startup=0 "gvim启动时不打开目录树
-" nmap <c-n> <plug>NERDTreeTabsToggle<CR>
-nmap <Leader>l <plug>NERDTreeTabsToggle<CR>
+nmap <Leader>l :NERDTreeToggle<CR>
 
 " -----------------------------------------------------------------------------
 "  < minibufexpl 插件配置 >
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
 nnoremap <Leader>b :MBEToggle<CR>
-
-" -----------------------------------------------------------------------------
-"  < airline 插件配置 >
-" -----------------------------------------------------------------------------
-" 状态栏插件，更好的状态栏效果
-let g:airline_left_sep=' | '
-let g:airline_right_sep=' | '
-
-let g:airline_section_b = '%{getcwd()}'
-let g:airline_section_c = '%t'
 
 " -----------------------------------------------------------------------------
 "  < repeat 插件配置 >
