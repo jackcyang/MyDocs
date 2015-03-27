@@ -316,7 +316,7 @@ nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
 nnoremap cM :%s/\r$//g<CR>:noh<CR>
 
 " 关闭搜索结果高亮显示
-noremap <silent> <leader>nh :nohlsearch<cr>
+noremap <silent> <leader>h :nohlsearch<cr>
 
 "用<c-j,k,h,l>在插入模式下移动光标
 inoremap <c-j> <Down>
@@ -474,7 +474,7 @@ vmap <Leader>m gc
 "  < nerdtree 插件配置 >
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
-" 常规模式下输入 <c-n> 调用插件
+" 常规模式下输入 <Leader>l 调用插件
 nmap <Leader>l :NERDTreeToggle<CR>
 
 " -----------------------------------------------------------------------------
@@ -482,6 +482,9 @@ nmap <Leader>l :NERDTreeToggle<CR>
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
 nnoremap <Leader>b :MBEToggle<CR>
+nnoremap <Leader>bd :MBEbd<CR>
+nnoremap <Leader>v :MBEbp<CR>
+nnoremap <Leader>n :MBEbn<CR>
 
 " -----------------------------------------------------------------------------
 "  < repeat 插件配置 >
