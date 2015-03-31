@@ -346,6 +346,7 @@ nnoremap <c-l> <c-w>l
 " -----------------------------------------------------------------------------
 " 设置 Drupal 文件的语法高亮
 autocmd BufNewFile,BufRead *.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php
+autocmd BufNewFile,BufRead *.info set filetype=dosini
 
 
 
