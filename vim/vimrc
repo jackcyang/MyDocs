@@ -126,13 +126,13 @@ if exists('+relativenumber')
 endif
 
 " 上下可视行数
-set scrolloff=7
+set scrolloff=3
 
 " 忽略以下的文件类型
 set wildignore+=*.o,*~,*.pyc,.*.swp
 
 " 设置命令行的高度为2，默认为1
-set cmdheight=2
+set cmdheight=1
 
 " 命令使用宽菜单
 set wildmenu
