@@ -128,11 +128,14 @@ endif
 " 上下可视行数
 set scrolloff=3
 
+" 突出显示当前行
+set cursorline
+
 " 忽略以下的文件类型
 set wildignore+=*.o,*~,*.pyc,.*.swp
 
 " 设置命令行的高度为2，默认为1
-set cmdheight=1
+" set cmdheight=2
 
 " 命令使用宽菜单
 set wildmenu
@@ -205,7 +208,9 @@ endif
 syntax enable
 
 " 主题配色方案
-colorscheme desert
+colorscheme molokai
+set t_Co=256
+" let g:molokai_original=1
 set background=dark
 
 " -----------------------------------------------------------------------------
@@ -227,7 +232,6 @@ set nobackup
 "set smartindent
 
 " 启用缩进
-" filetype plugin indent on
 filetype indent on
 
 " 将Tab键转换为空格
@@ -268,7 +272,6 @@ noremap <space> za
 set autoread
 
 " 自动切换目录为当前编辑文件所在目录
-"autocmd BufEnter * silent! cd %:p:h
 set autochdir
 
 " 搜索时忽略大小写
