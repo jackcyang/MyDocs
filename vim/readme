@@ -1,9 +1,1 @@
-These are my vim configuration files.
-
-"vimrc" is my vimrc file.
-"gvimfullscreen.dll" is for gvim's fullscreen mode for Windows.
-
-"vim-php-manual.tgz" is php manual files for vim.
-Installation:
-Create a folder named 'doc' somewhere and add this to your runtimepath.
-For example unpack it to c:\program\vim\php\doc and add this to your .vimrc: runtimepath+=c:\program\vim\php
+My vim configuration files.
