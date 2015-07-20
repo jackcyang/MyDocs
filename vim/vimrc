@@ -196,6 +196,11 @@ if g:isGUI
     endfunction
 endif
 
+" 设置默认字体
+if g:islinux
+    set guifont=DejaVu\ Sans\ Mono\ 11
+endif
+
 " 启用鼠标支持
 if has("mouse")
     set mouse=a
@@ -333,16 +338,18 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" 上下移动行或选中的行
-" nnoremap <c-n> mz:m+<cr>`z
-" nnoremap <c-m> mz:m-2<cr>`z
-" vnoremap <c-n> :m'>+<cr>`<my`>mzgv`yo`z
-" vnoremap <c-m> :m'<-2<cr>`>my`<mzgv`yo`z
+" Alt加j,k键上下移动行或选中的行
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-" nnoremap j mz:m+<cr>`z
-" nnoremap k mz:m-2<cr>`z
-" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
-" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
+if has("mac") || has("macunix")
+  nmap <D-j> <M-j>
+  nmap <D-k> <M-k>
+  vmap <D-j> <M-j>
+  vmap <D-k> <M-k>
+endif
 
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
@@ -486,9 +493,10 @@ nmap <Leader>l :NERDTreeToggle<CR>
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
 nnoremap <Leader>b :MBEToggle<CR>
+nnoremap <Leader>f :MBEFocus<CR>
 nnoremap <Leader>bd :MBEbd<CR>
-nnoremap <Leader>v :MBEbp<CR>
-nnoremap <Leader>n :MBEbn<CR>
+noremap <m-l> :MBEbn<CR>
+noremap <m-h> :MBEbp<CR>
 
 " -----------------------------------------------------------------------------
 "  < repeat 插件配置 >
