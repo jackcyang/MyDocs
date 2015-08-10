@@ -479,7 +479,6 @@ endif
 " let g:tcommentMapLeaderOp2="\"  "替换命令前缀gC
 nmap <Leader>m gcc
 vmap <Leader>m gc
-"vmap gc gcc
 
 " -----------------------------------------------------------------------------
 "  < nerdtree 插件配置 >
@@ -493,8 +492,11 @@ nmap <Leader>l :NERDTreeToggle<CR>
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
 nnoremap <Leader>b :MBEToggle<CR>
+" 将光标移动到 Minibufexpl 窗口里
 nnoremap <Leader>f :MBEFocus<CR>
+" 删除当前 buffer
 nnoremap <Leader>bd :MBEbd<CR>
+" Alt 加 h, l 键左右切换 buffer
 noremap <m-l> :MBEbn<CR>
 noremap <m-h> :MBEbp<CR>
 
@@ -526,5 +528,4 @@ noremap <Leader>e :Errors<CR> <c-w>j
 " 相对 TagList 能更好的支持面向对象
 let g:tagbar_width=40                       "设置窗口宽度
 nnoremap <Leader>t :TagbarToggle<CR>
-" nnoremap <c-t><c-b> :TagbarToggle<CR>
 
