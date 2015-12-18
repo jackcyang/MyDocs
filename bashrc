@@ -42,3 +42,5 @@ alias dpcs="phpcs --standard=Drupal --extensions='php,module,inc,install,test,pr
 alias dpcsp="phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"
 # Automatically fix coding standards
 alias dpcbf="phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"
+
+alias va="vagrant"
