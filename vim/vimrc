@@ -39,26 +39,25 @@ else
 endif
 
 " 使用Vundle来管理Vundle，这个必须要有。
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " 以下为要安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
-Bundle 'vim-easy-align'
-Bundle 'Yggdroot/indentLine'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-surround'
-Bundle 'Rykka/colorv.vim'
-Bundle 'fholgado/minibufexpl.vim'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'alvan/vim-php-manual'
-Bundle 'Emmet.vim'
-Bundle 'tComment'
-Bundle 'repeat.vim'
-Bundle 'syntastic'
-Bundle 'tagbar'
+Plugin 'vim-easy-align'
+Plugin 'Yggdroot/indentLine'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-surround'
+Plugin 'Rykka/colorv.vim'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'alvan/vim-php-manual'
+Plugin 'tComment'
+Plugin 'repeat.vim'
+Plugin 'syntastic'
+Plugin 'tagbar'
 
 " -----------------------------------------------------------------------------
 "  < 一般设置 >
@@ -158,6 +157,10 @@ set statusline+=%4{&bomb?'[BOM]':''}\               "BOM标记
 set statusline+=%-4.(\ %)                           "增加间距
 set statusline+=%-14.(%b,0x%-4.8B%)\                "光标下字符的十进制,十六进制表示
 set statusline+=%-10.(%l,%c%V%)\ %P                 "行，列及光标所在位置百分比
+" Syntastic 显示错误信息
+set statusline+=\ %#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 " 关闭错误提示音
 set noerrorbells
@@ -326,7 +329,7 @@ nnoremap cM :%s/\r$//g<CR>:noh<CR>
 " 关闭搜索结果高亮显示
 noremap <silent> <leader>h :nohlsearch<cr>
 
-"用<c-j,k,h,l>在插入模式下移动光标
+" 用<c-j,k,h,l>在插入模式下移动光标
 inoremap <c-j> <Down>
 inoremap <c-k> <Up>
 inoremap <c-h> <Left>
@@ -354,9 +357,12 @@ endif
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
-" 设置 Drupal 文件的语法高亮
-autocmd BufNewFile,BufRead *.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php
-autocmd BufNewFile,BufRead *.info set filetype=dosini
+" 读取项目相关配置，覆盖通用配置
+let project_vimrc = findfile('.project.vim', '.;')
+if filereadable(project_vimrc)
+    execute 'source' . fnameescape(project_vimrc)
+    " execute 'sandbox source' . fnameescape(project_vimrc)
+endif
 
 
 
@@ -388,13 +394,6 @@ endif
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
 " -----------------------------------------------------------------------------
-"  < Emmet 插件配置 >
-" -----------------------------------------------------------------------------
-" 以前的Zen Coding，用于快速编写HTML
-imap <Leader>a <c-y>,
-nmap <Leader>a <c-y>,
-
-" -----------------------------------------------------------------------------
 "  < indentLine 插件配置 >
 " -----------------------------------------------------------------------------
 " 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
@@ -409,7 +408,7 @@ if g:isGUI
 endif
 
 " 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
-let g:indentLine_color_term = 239
+" let g:indentLine_color_term = 239
 
 " 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
 " let g:indentLine_color_gui = '#A4E57E'
@@ -417,8 +416,9 @@ let g:indentLine_color_term = 239
 " -----------------------------------------------------------------------------
 "  < ctrlp 插件配置 >
 " -----------------------------------------------------------------------------
-" 快速打开文件，buffer等
-let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:20,result:20'
+let g:ctrlp_root_markers = ['tags']
+let g:ctrlp_match_window = 'bottom,order:btt,min:5,max:20,result:20'
+
 
 " -----------------------------------------------------------------------------
 "  < neocomplcache 插件配置 >
@@ -475,8 +475,6 @@ endif
 "     gc  注释/取消注释选中的区域
 "     gC  注释选中的区域
 
-"let g:tcommentMapLeaderOp1="\"  "替换命令前缀gc
-" let g:tcommentMapLeaderOp2="\"  "替换命令前缀gC
 nmap <Leader>m gcc
 vmap <Leader>m gc
 
@@ -492,8 +490,6 @@ nmap <Leader>l :NERDTreeToggle<CR>
 " -----------------------------------------------------------------------------
 " 切换显示／隐藏 Minibufexpl 窗口
 nnoremap <Leader>b :MBEToggle<CR>
-" 将光标移动到 Minibufexpl 窗口里
-nnoremap <Leader>f :MBEFocus<CR>
 " 删除当前 buffer
 nnoremap <Leader>bd :MBEbd<CR>
 " Alt 加 h, l 键左右切换 buffer
@@ -516,11 +512,16 @@ noremap <m-h> :MBEbp<CR>
 " -----------------------------------------------------------------------------
 " 用于保存文件时查检语法
 " 在打开文件的时候检查
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open = 1
+" 将错误列表填充到location list中，方面向前向后跳转
+let g:syntastic_always_populate_loc_list = 1
 " phpcs，tab 4个空格，编码参考使用CodeIgniter风格
-let g:syntastic_phpcs_conf = "--tab-width=4"
-" 打开错误列表，并将
-noremap <Leader>e :Errors<CR> <c-w>j
+" let g:syntastic_phpcs_conf = "--tab-width=4"
+" 打开错误列表，并将光标移动到错误列表中
+nnoremap <Leader>e :Errors<CR> <c-w>j
+" 直接在源文件中前后定位错误位置
+nnoremap <Leader>j :lnext<cr>
+nnoremap <Leader>k :lprev<cr>
 
 " -----------------------------------------------------------------------------
 "  < Tagbar 插件配置 >
@@ -529,3 +530,6 @@ noremap <Leader>e :Errors<CR> <c-w>j
 let g:tagbar_width=40                       "设置窗口宽度
 nnoremap <Leader>t :TagbarToggle<CR>
 
+
+" 安全设置
+set secure
