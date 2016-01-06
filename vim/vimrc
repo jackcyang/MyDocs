@@ -320,11 +320,11 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>p "+gp
 nnoremap <Leader>P "+gP
 
-" 常规模式下输入 cS 清除行尾空格
-nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
+" 常规模式下清除行尾空格
+nnoremap <Leader>cs :%s/\s\+$//g<CR>:noh<CR>
 
-" 常规模式下输入 cM 清除行尾 ^M 符号
-nnoremap cM :%s/\r$//g<CR>:noh<CR>
+" 常规模式下清除行尾 ^M 符号
+nnoremap <Leader>cm :%s/\r$//g<CR>:noh<CR>
 
 " 关闭搜索结果高亮显示
 noremap <silent> <leader>h :nohlsearch<cr>
