@@ -11,5 +11,5 @@ function! SetDrupalOptions()
     else
         let g:syntastic_php_phpcs_args = ""
     endif
-    exec 'normal gg=G'
+    " exec 'normal gg=G'
 endfunction
