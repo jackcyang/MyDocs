@@ -39,25 +39,25 @@ else
 endif
 
 " 使用Vundle来管理Vundle，这个必须要有。
-Plugin 'gmarik/vundle'
+Bundle 'gmarik/vundle'
 
 " 以下为要安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
-Plugin 'vim-easy-align'
-Plugin 'Yggdroot/indentLine'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Shougo/neocomplcache'
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-surround'
-Plugin 'Rykka/colorv.vim'
-Plugin 'fholgado/minibufexpl.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'alvan/vim-php-manual'
-Plugin 'tComment'
-Plugin 'repeat.vim'
-Plugin 'syntastic'
-Plugin 'tagbar'
+Bundle 'vim-easy-align'
+Bundle 'Yggdroot/indentLine'
+Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/neosnippet-snippets'
+Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-surround'
+Bundle 'Rykka/colorv.vim'
+Bundle 'fholgado/minibufexpl.vim'
+Bundle 'jiangmiao/auto-pairs'
+Bundle 'alvan/vim-php-manual'
+Bundle 'tComment'
+Bundle 'repeat.vim'
+Bundle 'syntastic'
+Bundle 'tagbar'
 
 " -----------------------------------------------------------------------------
 "  < 一般设置 >
