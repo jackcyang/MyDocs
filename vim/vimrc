@@ -52,12 +52,12 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-surround'
 Bundle 'Rykka/colorv.vim'
 Bundle 'fholgado/minibufexpl.vim'
-Bundle 'jiangmiao/auto-pairs'
 Bundle 'alvan/vim-php-manual'
 Bundle 'tComment'
 Bundle 'repeat.vim'
 Bundle 'syntastic'
 Bundle 'tagbar'
+Bundle 'BufOnly.vim'
 
 " -----------------------------------------------------------------------------
 "  < 一般设置 >
@@ -354,6 +354,8 @@ endif
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
+autocmd BufNewFile,BufRead *.twig set filetype=htmldjango
+
 " 读取项目相关配置，覆盖通用配置
 let project_vimrc = findfile('.project.vim', '.;')
 if filereadable(project_vimrc)
@@ -527,6 +529,11 @@ nnoremap <Leader>k :lprev<cr>
 let g:tagbar_width=40                       "设置窗口宽度
 nnoremap <Leader>t :TagbarToggle<CR>
 
+" -----------------------------------------------------------------------------
+"  < Bufonly 插件配置 >
+" -----------------------------------------------------------------------------
+" 删除其他buffers
+nnoremap <Leader>bo :BufOnly<cr>
 
 " 安全设置
 set secure
