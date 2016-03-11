@@ -1,5 +1,5 @@
 " Drupal 相关配置
-autocmd BufNewFile,BufRead *.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php | call SetDrupalOptions()
+autocmd BufNewFile,BufRead *.php,*.module,*.install,*.test,*.inc,*.profile,*.view set filetype=php | call SetDrupalOptions()
 autocmd BufNewFile,BufRead *.js,*.css call SetDrupalOptions()
 autocmd BufNewFile,BufRead *.info set filetype=dosini
 
