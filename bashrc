@@ -13,7 +13,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # User specific aliases and functions
-export PATH=$HOME/.composer/vendor/bin:$PATH
+export PATH=$HOME/.config/composer/vendor/bin:$PATH
 export WWW=/var/www/html
 
 alias l="ls -l"
