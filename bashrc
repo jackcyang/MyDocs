@@ -31,7 +31,7 @@ alias open=xdg-open
 # git commands
 alias gs='git status'
 alias ga='git add'
-alias gc='git commit -m'
+alias gc='git commit'
 alias gpom='git push origin master'
 alias gd='git diff'
 alias gdc='git diff --cached'
