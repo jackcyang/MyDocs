@@ -51,8 +51,14 @@ Bundle 'Shougo/neosnippet-snippets'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-surround'
 Bundle 'Rykka/colorv.vim'
+Bundle 'mattn/emmet-vim'
 Bundle 'fholgado/minibufexpl.vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'Glench/Vim-Jinja2-Syntax'
 Bundle 'alvan/vim-php-manual'
+Bundle 'editorconfig/editorconfig-vim'
+" Bundle 'bsdelf/bufferhint'
+" Bundle 'easymotion/vim-easymotion'
 Bundle 'tComment'
 Bundle 'repeat.vim'
 Bundle 'syntastic'
@@ -260,6 +266,12 @@ set smarttab
 " 断行时不截断单词
 set linebreak
 
+" 在100列处显示高亮显示
+set colorcolumn=100
+
+" 开启断行对亚洲语言的支持。m表示允许在汉字之间断行，B表示合并行时不在汉字中间补充空格。
+set formatoptions+=mB
+
 " 启用折叠
 set foldenable
 
@@ -351,7 +363,7 @@ endif
 " -----------------------------------------------------------------------------
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
-autocmd BufNewFile,BufRead *.twig set filetype=htmldjango
+autocmd BufNewFile,BufRead *.twig set filetype=jinja
 
 " 读取项目相关配置，覆盖通用配置
 let project_vimrc = findfile('.project.vim', '.;')
@@ -478,6 +490,7 @@ vmap <Leader>m gc
 "  < nerdtree 插件配置 >
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
+let NERDTreeWinSize = 31
 " 常规模式下输入 <Leader>l 调用插件
 nmap <Leader>l :NERDTreeToggle<CR>
 
@@ -529,7 +542,8 @@ nnoremap <Leader>t :TagbarToggle<CR>
 " -----------------------------------------------------------------------------
 "  < vim-php-manual 插件配置 >
 " -----------------------------------------------------------------------------
-let g:php_manual_online_search_shortcut = ''   "关闭在线查找帮助手册，默认是ctrl + h
+"关闭在线查找帮助手册，默认是ctrl + h
+let g:php_manual_online_search_shortcut = ''
 
 " -----------------------------------------------------------------------------
 "  < Bufonly 插件配置 >
