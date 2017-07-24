@@ -364,6 +364,7 @@ endif
 "  < 其它配置 >
 " -----------------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.twig set filetype=jinja
+autocmd BufNewFile,BufRead *.module,*.theme,*.install,*.test,*.inc,*.profile,*.view set filetype=php
 
 " 读取项目相关配置，覆盖通用配置
 let project_vimrc = findfile('.project.vim', '.;')
