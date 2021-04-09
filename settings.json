@@ -98,14 +98,17 @@
         { "command": { "action": "splitPane", "split": "horizontal", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
 
 		// Switching between panes
-		{ "command": { "action": "moveFocus", "direction": "down" }, "keys": "alt+j" },
 		{ "command": { "action": "moveFocus", "direction": "left" }, "keys": "alt+h" },
-		{ "command": { "action": "moveFocus", "direction": "right" }, "keys": "alt+l" },
+		{ "command": { "action": "moveFocus", "direction": "down" }, "keys": "alt+j" },
 		{ "command": { "action": "moveFocus", "direction": "up" }, "keys": "alt+k" },
+		{ "command": { "action": "moveFocus", "direction": "right" }, "keys": "alt+l" },
 		
 		{ "command": "togglePaneZoom", "keys": "alt+m" },		
 		{ "command": "closePane", "keys": "ctrl+d" },		
 		{ "command": { "action": "newTab", "index": 0 }, "keys": "alt+t" },
+		
+		{ "command": "scrollDown", "keys": "ctrl+alt+j" },
+		{ "command": "scrollUp", "keys": "ctrl+alt+k" },
 		
 		// This feature is only available in Windows Terminal Preview, version 1.7+
 		{ "command": "newWindow", "keys": "alt+c" }
