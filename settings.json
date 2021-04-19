@@ -28,6 +28,7 @@
         "defaults":
         {
             // Put settings here that you want to apply to all profiles.
+			"closeOnExit": "always"
         },
         "list":
         [
@@ -103,7 +104,7 @@
 		{ "command": { "action": "moveFocus", "direction": "up" }, "keys": "alt+k" },
 		{ "command": { "action": "moveFocus", "direction": "right" }, "keys": "alt+l" },
 		
-		{ "command": "togglePaneZoom", "keys": "alt+m" },
+		{ "command": "togglePaneZoom", "keys": "alt+m" },		
 		{ "command": { "action": "newTab", "index": 0 }, "keys": "alt+t" },
 		
 		{ "command": "scrollDown", "keys": "ctrl+alt+j" },
